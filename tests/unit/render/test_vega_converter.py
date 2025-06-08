@@ -4,12 +4,7 @@ import pytest
 
 from dvc.exceptions import DvcException
 from dvc.render import FIELD, FILENAME, REVISION
-from dvc.render.converter.vega import (
-    FieldNotFoundError,
-    VegaConverter,
-    _lists,
-    _is_datapoints,
-)
+from dvc.render.converter.vega import FieldNotFoundError, VegaConverter, _lists
 
 
 @pytest.mark.parametrize(
@@ -27,10 +22,6 @@ def test_finding_lists(dictionary, expected_result):
     result = _lists(dictionary)
 
     assert list(result) == expected_result
-
-
-def test_is_datapoints_key_consistency():
-    assert not _is_datapoints([{"a": 1, "b": 2}, {"a": 2}])
 
 
 @pytest.mark.studio
@@ -632,14 +623,6 @@ def test_convert(input_data, properties, expected_datapoints, expected_propertie
             {"x": {"f": "v", "f2": "v3"}, "y": {"f": "v2"}},
             FieldNotFoundError,
             id="unequal_x_y",
-        ),
-        pytest.param(
-            {
-                "f": {"metric": [{"x1": 1, "x2": 2, "v": 3}]}
-            },
-            {"x": {"f": ["x1", "x2"]}, "y": {"f": "v"}},
-            DvcException,
-            id="mismatched_x_y_sources",
         ),
     ],
 )

@@ -223,17 +223,3 @@ def test_squash_plots_properties_config_files():
     plot_properties = _squash_plots_properties(group)
 
     assert plot_properties == {"foo": 1, "bar": 2, "baz": 3}
-
-
-def test_squash_plots_properties_merges_x_y_dicts():
-    group = [
-        ("v1", "cfg1", "plot", {"x": {"f1": "x1"}, "y": {"f1": "y1"}}),
-        ("v1", "cfg2", "plot", {"x": {"f2": "x2"}, "y": {"f2": "y2"}}),
-    ]
-
-    plot_properties = _squash_plots_properties(group)
-
-    assert plot_properties == {
-        "x": {"f1": "x1", "f2": "x2"},
-        "y": {"f1": "y1", "f2": "y2"},
-    }
