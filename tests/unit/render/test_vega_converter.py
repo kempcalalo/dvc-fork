@@ -511,6 +511,74 @@ def test_finding_lists(dictionary, expected_result):
             },
             id="y_list_x_dict",
         ),
+        pytest.param(
+            {
+                "f": {
+                    "metric": [
+                        {"x1": 1, "x2": 11, "y1": 5, "y2": 10},
+                        {"x1": 2, "x2": 22, "y1": 6, "y2": 12},
+                    ]
+                }
+            },
+            {"x": {"f": ["x1", "x2"]}, "y": {"f": ["y1", "y2"]}},
+            [
+                {
+                    "x1": 1,
+                    "x2": 11,
+                    "y1": 5,
+                    "y2": 10,
+                    "dvc_inferred_x_value": 1,
+                    "dvc_inferred_y_value": 5,
+                    REVISION: "r",
+                    FILENAME: "f",
+                    FIELD: "y1",
+                },
+                {
+                    "x1": 2,
+                    "x2": 22,
+                    "y1": 6,
+                    "y2": 12,
+                    "dvc_inferred_x_value": 2,
+                    "dvc_inferred_y_value": 6,
+                    REVISION: "r",
+                    FILENAME: "f",
+                    FIELD: "y1",
+                },
+                {
+                    "x1": 1,
+                    "x2": 11,
+                    "y1": 5,
+                    "y2": 10,
+                    "dvc_inferred_x_value": 11,
+                    "dvc_inferred_y_value": 10,
+                    REVISION: "r",
+                    FILENAME: "f",
+                    FIELD: "y2",
+                },
+                {
+                    "x1": 2,
+                    "x2": 22,
+                    "y1": 6,
+                    "y2": 12,
+                    "dvc_inferred_x_value": 22,
+                    "dvc_inferred_y_value": 12,
+                    REVISION: "r",
+                    FILENAME: "f",
+                    FIELD: "y2",
+                },
+            ],
+            {
+                "anchors_y_definitions": [
+                    {FILENAME: "f", FIELD: "y1"},
+                    {FILENAME: "f", FIELD: "y2"},
+                ],
+                "x": "dvc_inferred_x_value",
+                "y": "dvc_inferred_y_value",
+                "x_label": "x",
+                "y_label": "y",
+            },
+            id="x_dict_list",
+        ),
     ],
 )
 def test_convert(input_data, properties, expected_datapoints, expected_properties):
